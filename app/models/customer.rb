@@ -4,6 +4,17 @@ class Customer < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
          
+  has_many :orders, dependent: :destroy
+  has_many :addresses, dependent: :destroy
+  
+  def full_name
+    self.last_name + " " + self.first_name
+  end
+  
+  def kana_full_name
+    kana_last_name + " " + kana_first_name
+  end
+         
   validates :last_name, presence: true
   validates :first_name, presence: true
   validates :kana_last_name, presence: true
