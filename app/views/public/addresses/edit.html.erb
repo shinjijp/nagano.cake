@@ -2,7 +2,7 @@
     <div class="col-xs-12">
         <h2 class="head-line text-center title_h2">配送先編集</h2>
 
-        <%= render "layouts/error_message", resource: @address %>
+        
         <%= form_with(model: @address, url:address_path, local: true ,method: :patch) do |f| %>
 
             <div class="addres col-xs-10">

@@ -10,7 +10,7 @@ class Public::CustomersController < ApplicationController
   def update
     @customer = current_customer
     if @customer.update(customer_params)
-      redirect_to customer_path
+      redirect_to customers_path
     else
       render :edit
     end
@@ -26,7 +26,7 @@ class Public::CustomersController < ApplicationController
     @customer.update(is_deleted: true)
     reset_session
     flash[:notice] = "ありがとうございました。またのご利用を心よりお待ちしております。"
-    redirect_to homes_top_path
+    redirect_to root_path
   end
   
   private

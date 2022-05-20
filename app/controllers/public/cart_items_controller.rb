@@ -1,15 +1,15 @@
 class Public::CartItemsController < ApplicationController
   before_action :authenticate_customer!
-
   def index
-    @cart_items = CartItem.where(customer_id: current_customer.id)
+    @cart_items = CartItem.all
+    @total = 0 
   end
 
   def create
-    @cart_item_check = CartItem.find_by(customer_id: current_customer.id, item_id: params[:cart_item][:item_id])
-    if @cart_item_check
-      @cart_item_check.amount += params[:cart_item][:amount].to_i
-      @cart_item_check.save
+    @cart_item = CartItem.find_by(customer_id: current_customer.id, item_id: params[:cart_item][:item_id])
+    if @cart_item
+      @cart_item.amount += params[:cart_item][:amount].to_i
+      @cart_item.save
       flash[:success] = "カートに存在済のアイテムです"
       redirect_to cart_items_path
     else
@@ -36,24 +36,20 @@ class Public::CartItemsController < ApplicationController
     end
   end
 
-  def destroy_all
-    CartItem.where(customer_id: current_customer.id).destroy_all
-    flash[:success] = "カートの中身を空にしました"
-    redirect_back(fallback_location: root_path)
-  end
-
   def destroy
     @cart_item = CartItem.find(params[:id])
     @cart_item.destroy
-    flash[:success] = "選択いただいたカートを空にしました"
-    redirect_back(fallback_location: root_path)
+    redirect_to cart_items_path
   end
 
-
+  def all_destroy
+    @cart_items = current_customer.cart_items
+    @cart_items.destroy_all
+    redirect_to cart_items_path
+  end
 
   private
-
   def cart_item_params
-    params.require(:cart_item).permit(:item_id, :amount)
+      params.require(:cart_item).permit(:customer_id, :item_id, :amount)
   end
-end
+end  

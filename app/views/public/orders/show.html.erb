@@ -29,15 +29,15 @@
 	<table class="table table-bordered table-condensed">
     <tr>
       <th>商品合計</th>
-      <td><%= total_price(@order_details).to_s(:delimited) %>円</td>
+      <td><%= @order.total_payment - 800%>円</td>
     </tr>
     <tr>
       <th>配送料</th>
-      <td><%= @order.shipping_cost.to_s(:delimited) %>円</td>
+      <td><%= @order.shipping_cost %>円</td>
     </tr>
     <tr>
       <th>ご請求金額</th>
-      <td><%= @order.total_payment.to_s(:delimited) %>円</td>
+      <td><%= @order.total_payment %>円</td>
     </tr>
   </table>
 	<strong>注文内容</strong>
@@ -54,12 +54,13 @@
   	<% @order_details.each do |order_detail| %>
       <tr>
 		    <td><%= order_detail.item.name %></td>
-		    <td><%= order_detail.item.tax_in_price.to_s(:delimited) %>円</td>
-		    <td><%= order_detail.count %></td>
-		    <td><%= order_detail.tax_in_price.to_s(:delimited) %>円</td>
+		    <td><%= order_detail.item.add_tax_price.to_s(:delimited) %>円</td>
+		    <td><%= order_detail.amount %></td>
+		    <td><%= order_detail.item.add_tax_price * order_detail.amount %>円</td>
       </tr>
     <% end %>
     </tbody>
+
   </table>
   <%= link_to "注文履歴一覧へ戻る", orders_path, class: "btn btn-info btn-lg order-index-back" %>
 <% else %>

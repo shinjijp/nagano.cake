@@ -14,8 +14,17 @@ Rails.application.routes.draw do
      patch 'update/customers' => 'customers#update'
     resources :addresses
     resources :items
-    resources :cart_items
-    resources :orders
+    resources :cart_items,only: [:index,:update,:create,:destroy] do
+        collection do
+          delete '/' => 'cart_items#all_destroy'
+        end
+      end
+    resources :orders,only: [:new,:index,:show,:create] do
+        collection do
+          post 'confirm'
+          get 'thanx'
+        end
+      end
   end
   devise_for :customers,skip: [:passwords], controllers: {
     registrations: "public/registrations",
@@ -30,13 +39,15 @@ devise_for :admin, skip: [:registrations, :passwords] ,controllers: {
 
    namespace :admin do
      
-    root to: "homes#top"
+    get 'homes/top'
+    
     
     resources :admin
     resources :genres
     resources :items
     resources :customers
     resources :orders
+    resources :order_details, only: [:update]
   end
   
   

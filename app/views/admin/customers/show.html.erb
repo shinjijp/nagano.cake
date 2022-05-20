@@ -6,11 +6,11 @@
             </tr>
             <tr>
               <th>氏名</th>
-              <td><%= full_name(@customer) %></td>
+              <td><%= @customer.full_name%></td>
             </tr>
             <tr>
               <th>フリガナ</th>
-              <td><%= kana_full_name(@customer)%></td>
+              <td><%= @customer.kana_full_name%></td>
             </tr>
             <tr>
               <th>郵便番号</th>
@@ -39,5 +39,5 @@
           </table>
           <div>
             <p><%= link_to "編集する",edit_admin_customer_path, class:"btn btn-success"%></p>
-            <p><%= link_to "注文履歴一覧を見る",admin_orders_path, class:"btn btn-primary"%></p>
+            <p><%= link_to "注文履歴一覧を見る",admin_homes_top_path, class:"btn btn-primary"%></p>
           </div>

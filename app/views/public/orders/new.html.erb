@@ -8,12 +8,14 @@
         <%= form_with model: @order, url: confirm_orders_path, method: :post, local: true do |f| %>
           <h5 class="col-xs-3 font-weight-bold mb-3">支払い方法</h5>
            <div class="col-xs-10">
-             <%= f.radio_button :payment_method, :"クレジットカード", checked: true %>
-             <%= f.label :"クレジットカード"%>
+             <%#= f.radio_button :payment_method, 0, checked: true %>
+             <%= f.radio_button :payment_method, Order.payment_methods.key(0) %>
+　　　　　　 <%= f.label :payment_method, Order.payment_methods_i18n[:credit_card] %>
            </div>
            <div class="col-xs-10">
-             <%= f.radio_button :payment_method, :"銀行振込" %>
-             <%= f.label :"銀行振込"%>
+             <%#= f.radio_button :payment_method, 1 %>
+             <%= f.radio_button :payment_method, Order.payment_methods.key(1) %>
+             <%= f.label :payment_method, Order.payment_methods_i18n[:transfer]%>
            </div>
            
           <h5 class="col-xs-3 font-weight-bold my-3">お届け先</h5>
@@ -21,16 +23,16 @@
              <%= f.radio_button :my_address, "1", checked: true %>
              <%= f.label :"ご自身の住所"%><br>
              <%= "〒#{current_customer.postal_code} #{current_customer.address}"%><br>
-             <%= "#{full_name(current_customer)}"%>
+             <%= "#{current_customer.full_name}"%>
            </div>
-
-          <% if @address != [] %>
-          <div class="col-xs-10">
+           
+           <div class="col-xs-10">
             <%= f.radio_button :my_address, "2"%>
              <%= f.label :"登録住所からの選択"%><br>
-            <%= f.collection_select  :address_id, @addresses, :id, :order_address%>
+            <%= f.collection_select :address_id, @current_customer.addresses, :id, :address_display %>
           </div>
-          <% end %>
+
+          
 
            <div class="col-xs-10 mt-5">
              <%= f.radio_button :my_address, "3"%>
