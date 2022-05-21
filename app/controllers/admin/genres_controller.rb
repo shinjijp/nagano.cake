@@ -16,11 +16,17 @@ class Admin::GenresController < ApplicationController
 
   def update
     @genre = Genre.find(params[:id])
-    redirect_to '/admin/genres'
+    if @genre.update(genre_params)
+      flash[:notice] = "変更内容を更新しました。"
+      redirect_to admin_genres_path
+    else
+      flash[:alert] = "変更内容に不備があります。"
+      render "edit"
+    end
   end
   
   private
-  # ストロングパラメータ
+  
   def genre_params
     params.require(:genre).permit(:name)
   end

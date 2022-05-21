@@ -13,7 +13,7 @@
     <% @cart_items.each do |i| %>
       <tr id="cart-<%= i.id %>">
         <th>
-          <%#= attachment_image_tag i.item, :image, size: "55x43", fallback: "no_image.jpg" %>
+          <%= image_tag i.item.image, size: "50x50" %>
           <%= i.item.name %>
         </th>
         <th><%= i.item.add_tax_price %></th>
